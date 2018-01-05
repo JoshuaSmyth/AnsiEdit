@@ -1,7 +1,7 @@
 # AnsiEdit
 A Simple Web Based Ansi(Inspired) Editor by Joshua Smyth
 
-Use it at [here](./index.html)
+Try it out [here](http://www.maglevstudios.com/AnsiEdit/index.html)
 
 
 BUGS:

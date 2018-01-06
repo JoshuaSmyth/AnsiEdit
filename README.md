@@ -16,3 +16,4 @@ TODO / Roadmap:
  - Export as PNG
  - Undo/Redo
  - Animation Support
+ - Custom Palettes

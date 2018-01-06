@@ -335,6 +335,12 @@ var paintTile = function (e) {
     var tileY = Math.floor(y / tile_height);
     console.log("Tool mode" + tool_mode);
 
+    if (tileX > 80 || tileY < 0)
+        return;
+
+    if (tileY > 20 || tileY < 0)
+        return;
+
     if (tool_mode == toolEnum.CLONE) {
         cursor.Bgc = currentMap.Tiles[tileX][tileY].Bgc;
         cursor.Fgc = currentMap.Tiles[tileX][tileY].Fgc;
@@ -411,6 +417,12 @@ var loadMap = function() {
 
 var saveMap = function() {
  
+    var saveData = JSON.stringify(map_array);
+
+    console.log(saveData);
+    localStorage.setItem('save_data', saveData);
+
+ /*
         var source = "=" + JSON.stringify(currentMap);
         console.log(source);
 
@@ -428,6 +440,7 @@ var saveMap = function() {
                  console.log('Error in Operation');
              }
          });
+*/
 };
 
 var newMap = function() {
@@ -437,7 +450,10 @@ var newMap = function() {
     opt.text = "New Map";
     opt.value = images_list.options.length - 1;
 
+    map_array.push(new Map());
 
+/*
+    // Server communication
   var uri = 'http://onethousandapi.maglevstudios.com/api/values/?x=0&y=0';
 
     $(document).ready(function () {
@@ -448,11 +464,41 @@ var newMap = function() {
             map_array.push(map);
           });
     });
-
+*/
 };
 
 var loadMapList = function()
 {
+    console.log("load map list");
+
+    var storageData = localStorage.getItem('save_data');
+    if (storageData) {
+        var data = JSON.parse(storageData);
+        map_array = data;
+
+        for(var item of data) {
+            var opt = document.createElement("option");
+            images_list.options.add(opt);
+            opt.text =  item.Id + "." + item.Name; // TODO Get name from map data
+            opt.value = item.Id;
+        }
+
+        images_list.selectedIndex  = 0;
+        currentMap = map_array[0];
+        drawMap();
+
+    } else {
+        var opt = document.createElement("option");
+        images_list.options.add(opt);
+        opt.text =  "new";
+        opt.value = 0;
+        opt.selected = true;
+        map_array.push(new Map());
+    }
+
+
+    // TODO Read from local
+/*
     var uri = 'http://onethousandapi.maglevstudios.com/api/values/';
 
     // Send an AJAX request
@@ -474,7 +520,7 @@ var loadMapList = function()
             images_list.selectedIndex = 0;
             loadMapById(0);
      });
-
+*/
 };
 
 // Initalize
@@ -488,9 +534,7 @@ imageObj.onload = function() {
 
     // Load Map List
     loadMapList(); 
-    //loadMap();
     drawMap();
-
 };
 imageObj.src = 'code437.png';
 
@@ -527,6 +571,9 @@ canvas_main.oncontextmenu = function() {
 };
 
 canvas_tileset.onclick = function(e) {
+
+    console.log('canvas tileset click');
+
     var rect = canvas_tileset.getBoundingClientRect();
        
     var x = e.clientX - rect.left;
@@ -534,7 +581,6 @@ canvas_tileset.onclick = function(e) {
 
     var tileX = Math.floor(x / (tile_width+1));
     var tileY = Math.floor(y / (tile_height+1));
-
 
     cursor.Id = tileX + tileY*32;
     refreshCursor();
@@ -550,6 +596,13 @@ btn_new.onclick = function() {
 
 function loadMapById(x)
 {
+    console.log("Load map by id:" + x);
+    // TODO
+
+    currentMap = map_array[x];
+    drawMap();
+
+    /*
     var uri = 'http://onethousandapi.maglevstudios.com/api/values/' + x;
 
     // Send an AJAX request
@@ -564,6 +617,7 @@ function loadMapById(x)
             txtEast.value = currentMap.E;
             drawMap();
         });
+*/
 }
 
 txtMapname.onchange = function()
@@ -665,3 +719,9 @@ btn_import.onclick = function (evt) {
         alert('The File APIs are not fully supported in this browser.');
     }
 };
+
+setInterval(function() {
+    console.log('Autosave');
+    saveMap();
+
+}, 30000);

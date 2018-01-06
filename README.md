@@ -5,8 +5,8 @@ Try it out [here](http://www.maglevstudios.com/AnsiEdit/index.html)
 
 
 BUGS:
- - New images currently not working
  - Current highlighted character not working
+ - Cannot delete an image
  
 TODO / Roadmap:
  - Implement BucketFill tool

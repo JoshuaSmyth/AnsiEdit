@@ -5,8 +5,9 @@ Try it out [here](http://www.maglevstudios.com/AnsiEdit/index.html)
 
 
 BUGS:
- - Current highlighted character not working
- - Cannot delete an image
+ - Cannot name a map
+ - Cannot delete a map
+ - Current tile should be highlighted in the tileset
  
 TODO / Roadmap:
  - Implement BucketFill tool

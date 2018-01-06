@@ -3,6 +3,7 @@ var canvas_main = document.getElementById("canvas_main");
 var canvas_cursor = document.getElementById("canvas_cursor");
 var canvas_tileset = document.getElementById("canvas_tileset");
 var btn_save = document.getElementById("btnSave");
+var btn_export_png = document.getElementById("btnExportPNG");
 var btn_new = document.getElementById("btnNew");
 var btn_del = document.getElementById("btnDel");
 var btn_export = document.getElementById("btnJson");
@@ -542,6 +543,13 @@ imageObj.src = 'code437.png';
 // Attach Events
 btn_save.onclick = function() {
     saveMap();
+};
+
+btn_export_png.onclick = function() {
+ var link = document.getElementById('link');
+  link.setAttribute('download', 'Export.png');
+  link.setAttribute('href', canvas_main.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+  link.click();
 };
 
 var isMouseDown = false;
